@@ -12,7 +12,7 @@ public class King extends ChessPiece {
 
     @Override
     public ArrayList<int[]> getNextPotentialPositions(String[][] pad) {
-        ArrayList potentialPositions = new ArrayList<Integer>();
+        ArrayList<int[]> potentialPositions = new ArrayList<>();
         for(int i=-1; i<=1; i++){
             for(int j=-1; j<=1; j++){
                 int posX = this.getPosx() + i;
@@ -21,9 +21,7 @@ public class King extends ChessPiece {
                     if(pad[posY][posX] != null){
                         potentialPositions.add(new int[] {posX, posY});
                     }
-                }catch(ArrayIndexOutOfBoundsException e){
-                    continue;
-                }
+                }catch(ArrayIndexOutOfBoundsException ignored){}
 
 
             }
@@ -37,8 +35,8 @@ public class King extends ChessPiece {
         System.out.println(pad[king.getPosy()][king.getPosx()]);
         System.out.println();
         List<int[]> list = king.getNextPotentialPositions(pad);
-        for(int i=0; i<list.size(); i++){
-            System.out.println(pad[list.get(i)[1]][list.get(i)[0]]);
+        for (int[] pair : list) {
+            System.out.println(pad[pair[1]][pair[0]]);
         }
     }
 }
