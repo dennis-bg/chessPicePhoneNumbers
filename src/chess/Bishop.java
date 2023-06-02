@@ -11,49 +11,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     public List<int[]> getNextPotentialPositions(String[][] pad) {
-        ArrayList<int[]> potentialPositions = new ArrayList<>();
-
-        int x = this.getPosx();
-        int y = this.getPosy();
-        try{
-            while(pad[y][x] != null){
-                potentialPositions.add(new int[] {x, y});
-                x--;
-                y--;
-            }
-        }catch(ArrayIndexOutOfBoundsException ignored){}
-
-        x = this.getPosx() + 1;
-        y = this.getPosy() + 1;
-        try{
-            while(pad[y][x] != null){
-                potentialPositions.add(new int[] {x, y});
-                x++;
-                y++;
-            }
-        }catch(ArrayIndexOutOfBoundsException ignored){}
-
-        x = this.getPosx() - 1;
-        y = this.getPosy() + 1;
-        try{
-            while(pad[y][x] != null){
-                potentialPositions.add(new int[] {x, y});
-                x--;
-                y++;
-            }
-        }catch(ArrayIndexOutOfBoundsException ignored){}
-
-        x = this.getPosx() + 1;
-        y = this.getPosy() - 1;
-        try{
-            while(pad[y][x] != null){
-                potentialPositions.add(new int[] {x, y});
-                x++;
-                y--;
-            }
-        }catch(ArrayIndexOutOfBoundsException ignored){}
-
-        return potentialPositions;
+        return super.getDiagonalPositoins(pad);
     }
 
     public static void main(String[] args) {

@@ -11,29 +11,7 @@ public class Rook extends ChessPiece {
 
     @Override
     public List<int[]> getNextPotentialPositions(String[][] pad) {
-        ArrayList<int[]> potentialPositions = new ArrayList<>();
-
-        int x = 0;
-        int y = this.getPosy();
-        try{
-            while(pad[y][x] != null){
-                potentialPositions.add(new int[] {x, y});
-                x++;
-            }
-        }catch(ArrayIndexOutOfBoundsException ignored){}
-
-        x = this.getPosx();
-        y = 0;
-        try{
-            while(pad[y][x] != null){
-                if(y != this.getPosy()){
-                    potentialPositions.add(new int[] {x, y});
-                }
-                y++;
-            }
-        }catch(ArrayIndexOutOfBoundsException ignored){}
-
-        return potentialPositions;
+        return super.getHorizantalVerticalPositions(pad);
     }
 
     public static void main(String[] args) {
