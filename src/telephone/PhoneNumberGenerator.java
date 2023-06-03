@@ -81,7 +81,7 @@ public class PhoneNumberGenerator {
         return null;
     }
 
-    public void generatePhoneNumbers(){
+    public void generatePhoneNumbers() throws NullPointerException {
         int[] initialCoordinates = getInitialCoordinates();
         if(initialCoordinates == null){
             throw new NullPointerException("There is no such key on this phone pad");

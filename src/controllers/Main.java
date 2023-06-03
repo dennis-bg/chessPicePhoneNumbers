@@ -29,6 +29,7 @@ public class Main {
             for(String[] row : phonePad){
                 System.out.println(Arrays.toString(row));
             }
+            System.out.println();
             String[] accept = {"Y", "N"};
             String input;
             do{
@@ -42,16 +43,20 @@ public class Main {
         return phonePad;
     }
 
-    private static String[][] getPhonePad(){
+    private static String[][] getPhonePad() throws Exception {
         String[][] standardPhonePad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
         for(String[] row : standardPhonePad){
             System.out.println(Arrays.toString(row));
         }
+        System.out.println();
         boolean valid, useStandardPad;
         String[] accept = {"Y", "N"};
         do{
-            System.out.print("Would you like to use a standard phone pad layout (as seen above)? (Y/N) : ");
+            System.out.print("Would you like to use a standard phone pad layout (as seen above)? (Y/N, Q to quit) : ");
             String input = sc.nextLine().toUpperCase();
+            if(input.equals("Q")){
+                throw new Exception();
+            }
             valid = Arrays.asList(accept).contains(input);
             useStandardPad = input.equals("Y");
         }while(!valid);
@@ -76,16 +81,28 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String[][] phonePad = getPhonePad();
-        String initialKey = getInitialKey();
+        while(true){
+            System.out.println();
+            String[][] phonePad;
+            try{
+                phonePad = getPhonePad();
+            }catch(Exception e){
+                break;
+            }
+            String initialKey = getInitialKey();
 
-        PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad, initialKey);
-        System.out.println();
-        try{
-            generator.generatePhoneNumbers();
-        }catch(NullPointerException e){
-            System.out.println(e.getMessage());
+            PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad, initialKey);
+            System.out.println();
+            try{
+                generator.generatePhoneNumbers();
+            }catch(NullPointerException e){
+                System.out.println(e.getMessage());
+            }
+            System.out.println();
+            System.out.println("=======================================================================");
         }
+
+
 
     }
 }
