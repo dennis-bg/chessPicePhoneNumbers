@@ -2,6 +2,7 @@ package telephone;
 
 import chess.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class PhoneNumberGenerator {
@@ -51,6 +52,9 @@ public class PhoneNumberGenerator {
             piece.setPosx(pair[0]);
             piece.setPosy(pair[1]);
             String nextNum = phonePad[piece.getPosy()][piece.getPosx()];
+            if(Arrays.asList(PhoneNumber.INVALIDCHARACTERS).indexOf(nextNum) != -1){
+                continue;
+            }
             sum += generatePhoneNumbersForPiece(piece, phoneNumber + nextNum);
         }
         return sum;
@@ -58,7 +62,7 @@ public class PhoneNumberGenerator {
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad, "1");
+        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad, "7");
         generator.generatePhoneNumbers();
     }
 
