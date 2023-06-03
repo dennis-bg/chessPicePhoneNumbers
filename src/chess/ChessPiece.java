@@ -5,6 +5,8 @@ import java.util.List;
 
 public abstract class ChessPiece {
 
+    public enum ChessPieces {KING, QUEEN, KNIGHT, ROOK, BISHOP, PAWN}
+
     private String name;
     private int posx;
     private int posy;
