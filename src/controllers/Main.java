@@ -81,6 +81,11 @@ public class Main {
 
         PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad, initialKey);
         System.out.println();
-        generator.generatePhoneNumbers();
+        try{
+            generator.generatePhoneNumbers();
+        }catch(NullPointerException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 }

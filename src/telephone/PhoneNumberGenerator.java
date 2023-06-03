@@ -83,7 +83,9 @@ public class PhoneNumberGenerator {
 
     public void generatePhoneNumbers(){
         int[] initialCoordinates = getInitialCoordinates();
-        assert initialCoordinates != null;
+        if(initialCoordinates == null){
+            throw new NullPointerException("There is no such key on this phone pad");
+        }
         for(ChessPiece.ChessPieces chessPiece : ChessPiece.ChessPieces.values()){
             phoneNumbers.clear();
             ChessPiece piece = getChessPiece(chessPiece, initialCoordinates[0], initialCoordinates[1]);
