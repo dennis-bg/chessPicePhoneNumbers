@@ -3,6 +3,8 @@ package telephone;
 import chess.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class PhoneNumberGenerator {
@@ -29,19 +31,29 @@ public class PhoneNumberGenerator {
     private int generatePhoneNumbers(){
         int[] initialCoordinates = getInitialCoordinates();
         assert initialCoordinates != null;
-        ChessPiece piece = new Rook(initialCoordinates[0], initialCoordinates[1]);
-        int total = generatePhoneNumbersForPiece(piece, initialKey);
+        ChessPiece piece = new Queen(initialCoordinates[0], initialCoordinates[1]);
+        HashMap<String, List<int[]>> possiblePositions = new HashMap<>();
+        int total = generatePhoneNumbersForPiece(piece, initialKey, possiblePositions);
+        System.out.println();
         System.out.println(total);
         return total;
     }
 
-    private int generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber){
+    private int generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber, HashMap<String, List<int[]>> possiblePositions){
         if(phoneNumber.length() == PhoneNumber.VALIDLENGTH){
             System.out.println(phoneNumber);
             return 1;
         }
 
-        List<int[]> nextPossiblePositions = piece.getNextPotentialPositions(phonePad);
+        String currNum = "" + phoneNumber.charAt(phoneNumber.length()-1);
+        List<int[]> nextPossiblePositions;
+        if(possiblePositions.containsKey(currNum)){
+            nextPossiblePositions = possiblePositions.get(currNum);
+        } else {
+            nextPossiblePositions = piece.getNextPotentialPositions(phonePad);
+            possiblePositions.put(currNum, nextPossiblePositions);
+        }
+
         if(nextPossiblePositions.size() == 0){
             return 0;
         }
@@ -55,7 +67,7 @@ public class PhoneNumberGenerator {
             if(Arrays.asList(PhoneNumber.INVALIDCHARACTERS).indexOf(nextNum) != -1){
                 continue;
             }
-            sum += generatePhoneNumbersForPiece(piece, phoneNumber + nextNum);
+            sum += generatePhoneNumbersForPiece(piece, phoneNumber + nextNum, possiblePositions);
         }
         return sum;
     }
