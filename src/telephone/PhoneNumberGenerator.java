@@ -4,16 +4,19 @@ import chess.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class PhoneNumberGenerator {
 
     private String[][] phonePad;
     private String initialKey;
+    HashSet<String> phoneNumbers;
 
     public PhoneNumberGenerator(String[][] phonePad, String initialKey) {
         this.phonePad = phonePad;
         this.initialKey = initialKey;
+        phoneNumbers = new HashSet<>();
     }
 
     private int[] getInitialCoordinates(){
@@ -29,16 +32,17 @@ public class PhoneNumberGenerator {
 
     private int generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber, HashMap<String, List<int[]>> possiblePositions){
         if(phoneNumber.length() == PhoneNumber.VALIDLENGTH){
+            phoneNumbers.add(phoneNumber);
             return 1;
         }
 
-        String currNum = "" + phoneNumber.charAt(phoneNumber.length()-1);
+        String hash = "" + piece.getPosx() + piece.getPosy();
         List<int[]> nextPossiblePositions;
-        if(possiblePositions.containsKey(currNum)){
-            nextPossiblePositions = possiblePositions.get(currNum);
+        if(possiblePositions.containsKey(hash)){
+            nextPossiblePositions = possiblePositions.get(hash);
         } else {
             nextPossiblePositions = piece.getNextPotentialPositions(phonePad);
-            possiblePositions.put(currNum, nextPossiblePositions);
+            possiblePositions.put(hash, nextPossiblePositions);
         }
 
         if(nextPossiblePositions.size() == 0){
@@ -81,11 +85,12 @@ public class PhoneNumberGenerator {
         int[] initialCoordinates = getInitialCoordinates();
         assert initialCoordinates != null;
         for(ChessPiece.ChessPieces chessPiece : ChessPiece.ChessPieces.values()){
+            phoneNumbers.clear();
             ChessPiece piece = getChessPiece(chessPiece, initialCoordinates[0], initialCoordinates[1]);
             HashMap<String, List<int[]>> possiblePositions = new HashMap<>();
             int total = generatePhoneNumbersForPiece(piece, initialKey, possiblePositions);
             assert piece != null;
-            System.out.println(piece.getName() + " : " + total);
+            System.out.println(piece.getName() + " : " + phoneNumbers.size());
         }
     }
 
