@@ -35,7 +35,7 @@ public abstract class ChessPiece {
         this.posy = posy;
     }
 
-    protected List<int[]> getDiagonalPositoins(String[][] pad){
+    protected List<int[]> getDiagonalPositions(String[][] pad){
         ArrayList<int[]> potentialPositions = new ArrayList<>();
 
         int x = this.getPosx();
@@ -81,7 +81,7 @@ public abstract class ChessPiece {
         return potentialPositions;
     }
 
-    protected List<int[]> getHorizantalVerticalPositions(String[][] pad){
+    protected List<int[]> getHorizontalVerticalPositions(String[][] pad){
         ArrayList<int[]> potentialPositions = new ArrayList<>();
 
         int x = 0;

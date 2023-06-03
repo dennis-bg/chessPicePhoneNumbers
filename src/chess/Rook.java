@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends ChessPiece {
@@ -11,7 +10,7 @@ public class Rook extends ChessPiece {
 
     @Override
     public List<int[]> getNextPotentialPositions(String[][] pad) {
-        return super.getHorizantalVerticalPositions(pad);
+        return super.getHorizontalVerticalPositions(pad);
     }
 
     public static void main(String[] args) {
