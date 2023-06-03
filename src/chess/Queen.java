@@ -11,15 +11,15 @@ public class Queen extends ChessPiece {
 
     @Override
     public List<int[]> getNextPotentialPositions(String[][] pad) {
-        ArrayList<int[]> potentialPositions = new ArrayList<>();
-        potentialPositions.addAll(super.getHorizantalVerticalPositions(pad));
-        potentialPositions.addAll(super.getDiagonalPositoins((pad)));
+        ArrayList<int[]> potentialPositions = new ArrayList<>(super.getHorizontalVerticalPositions(pad));
+        potentialPositions.removeIf(pair -> pair[0] == this.getPosx() && pair[1] == this.getPosy());
+        potentialPositions.addAll(super.getDiagonalPositions((pad)));
         return potentialPositions;
     }
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        Queen queen = new Queen(1,0);
+        Queen queen = new Queen(0,0);
         System.out.println(pad[queen.getPosy()][queen.getPosx()]);
         System.out.println();
         List<int[]> list = queen.getNextPotentialPositions(pad);
