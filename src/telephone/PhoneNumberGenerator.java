@@ -30,10 +30,10 @@ public class PhoneNumberGenerator {
         return null;
     }
 
-    private int generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber, HashMap<String, List<int[]>> possiblePositions){
+    private void generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber, HashMap<String, List<int[]>> possiblePositions){
         if(phoneNumber.length() == PhoneNumber.VALIDLENGTH){
             phoneNumbers.add(phoneNumber);
-            return 1;
+            return;
         }
 
         String hash = "" + piece.getPosx() + piece.getPosy();
@@ -46,10 +46,8 @@ public class PhoneNumberGenerator {
         }
 
         if(nextPossiblePositions.size() == 0){
-            return 0;
+            return;
         }
-
-        int sum = 0;
 
         for(int[] pair : nextPossiblePositions){
             piece.setPosx(pair[0]);
@@ -58,9 +56,8 @@ public class PhoneNumberGenerator {
             if(Arrays.asList(PhoneNumber.INVALIDCHARACTERS).indexOf(nextNum) != -1){
                 continue;
             }
-            sum += generatePhoneNumbersForPiece(piece, phoneNumber + nextNum, possiblePositions);
+            generatePhoneNumbersForPiece(piece, phoneNumber + nextNum, possiblePositions);
         }
-        return sum;
     }
 
     private ChessPiece getChessPiece(ChessPiece.ChessPieces piece, int initX, int initY){
@@ -90,7 +87,7 @@ public class PhoneNumberGenerator {
             phoneNumbers.clear();
             ChessPiece piece = getChessPiece(chessPiece, initialCoordinates[0], initialCoordinates[1]);
             HashMap<String, List<int[]>> possiblePositions = new HashMap<>();
-            int total = generatePhoneNumbersForPiece(piece, initialKey, possiblePositions);
+            generatePhoneNumbersForPiece(piece, initialKey, possiblePositions);
             assert piece != null;
             System.out.println(piece.getName() + " : " + phoneNumbers.size());
         }
