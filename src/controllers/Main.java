@@ -3,6 +3,8 @@ package controllers;
 import telephone.PhoneNumber;
 import telephone.PhoneNumberGenerator;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -79,6 +81,26 @@ public class Main {
         return initialKey;
     }
 
+    private static String getFileName(){
+        boolean valid;
+        String fileName;
+        do{
+            System.out.print("Provide the file name to print to : ");
+            fileName = sc.nextLine();
+            File file = new File(fileName);
+            try{
+                valid = file.createNewFile();
+                if(!valid){
+                    System.out.println("File already exists. Please choose another.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                valid = false;
+            }
+        }while(!valid);
+        return fileName;
+    }
+
     public static void main(String[] args) {
 
         while(true){
@@ -90,12 +112,13 @@ public class Main {
                 break;
             }
             String initialKey = getInitialKey();
+            String fileName = getFileName();
 
-            PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad, initialKey);
+            PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad, initialKey, fileName);
             System.out.println();
             try{
                 generator.generatePhoneNumbers();
-            }catch(NullPointerException e){
+            }catch(Exception e){
                 System.out.println(e.getMessage());
             }
             System.out.println();

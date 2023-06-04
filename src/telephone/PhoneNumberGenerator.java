@@ -2,6 +2,8 @@ package telephone;
 
 import chess.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,11 +13,13 @@ public class PhoneNumberGenerator {
 
     private String[][] phonePad;
     private String initialKey;
-    HashSet<String> phoneNumbers;
+    private String fileName;
+    private HashSet<String> phoneNumbers;
 
-    public PhoneNumberGenerator(String[][] phonePad, String initialKey) {
+    public PhoneNumberGenerator(String[][] phonePad, String initialKey, String fileName) {
         this.phonePad = phonePad;
         this.initialKey = initialKey;
+        this.fileName = fileName;
         phoneNumbers = new HashSet<>();
     }
 
@@ -78,25 +82,33 @@ public class PhoneNumberGenerator {
         return null;
     }
 
-    public void generatePhoneNumbers() throws NullPointerException {
+    public void generatePhoneNumbers() throws NullPointerException, IOException {
         int[] initialCoordinates = getInitialCoordinates();
         if(initialCoordinates == null){
             throw new NullPointerException("There is no such key on this phone pad");
         }
+
+        FileWriter writer = new FileWriter(fileName);
+        for(String[] row : phonePad){
+            writer.write(Arrays.toString(row) + '\n');
+        }
+        writer.write("\nStarting key : " + initialKey + "\n\n");
         for(ChessPiece.ChessPieces chessPiece : ChessPiece.ChessPieces.values()){
             phoneNumbers.clear();
             ChessPiece piece = getChessPiece(chessPiece, initialCoordinates[0], initialCoordinates[1]);
             HashMap<String, List<int[]>> possiblePositions = new HashMap<>();
             generatePhoneNumbersForPiece(piece, initialKey, possiblePositions);
             assert piece != null;
-            System.out.println(piece.getName() + " : " + phoneNumbers.size());
+            writer.write(piece.getName() + " : " + phoneNumbers.size() + '\n');
         }
+        writer.close();
+        System.out.println("Answers written to " + fileName);
     }
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad, "2");
-        generator.generatePhoneNumbers();
+//        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad, "2");
+//        generator.generatePhoneNumbers();
     }
 
 }
