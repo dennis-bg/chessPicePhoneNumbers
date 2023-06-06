@@ -64,21 +64,6 @@ public class Main {
         return useStandardPad ? standardPhonePad : generatePhonePad();
     }
 
-    private static String getInitialKey(){
-        String initialKey;
-        boolean valid;
-        do{
-            System.out.print("What key would you like to start at? : ");
-            initialKey = sc.nextLine();
-            valid = Arrays.asList(PhoneNumber.INVALIDSTARTINGNUMBER).indexOf(initialKey) == -1;
-            if(!valid){
-                System.out.println("Invalid starting key. You cannot start with the following keys : " + Arrays.toString(PhoneNumber.INVALIDSTARTINGNUMBER) + ". Please choose another.");
-            }
-        }while(!valid);
-
-        return initialKey;
-    }
-
     public static void main(String[] args) {
 
         while(true){
@@ -89,9 +74,8 @@ public class Main {
             }catch(Exception e){
                 break;
             }
-            String initialKey = getInitialKey();
 
-            PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad, initialKey);
+            PhoneNumberGenerator generator = new PhoneNumberGenerator(phonePad);
             System.out.println();
             try{
                 generator.generatePhoneNumbers();

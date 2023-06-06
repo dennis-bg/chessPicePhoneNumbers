@@ -10,39 +10,29 @@ import java.util.List;
 public class PhoneNumberGenerator {
 
     private String[][] phonePad;
-    private String initialKey;
     HashSet<String> phoneNumbers;
+    HashMap<String, List<int[]>> possiblePositionsMap;
 
-    public PhoneNumberGenerator(String[][] phonePad, String initialKey) {
+    public PhoneNumberGenerator(String[][] phonePad) {
         this.phonePad = phonePad;
-        this.initialKey = initialKey;
         phoneNumbers = new HashSet<>();
+        possiblePositionsMap = new HashMap<>();
     }
 
-    private int[] getInitialCoordinates(){
-        for(int i = 0; i<phonePad.length; i++){
-            for(int j=0; j<phonePad[i].length; j++){
-                if(phonePad[i][j].equals(initialKey)){
-                    return new int[] {j, i};
-                }
-            }
-        }
-        return null;
-    }
-
-    private void generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber, HashMap<String, List<int[]>> possiblePositions){
+    private void generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber){
         if(phoneNumber.length() == PhoneNumber.VALIDLENGTH){
             phoneNumbers.add(phoneNumber);
+//            System.out.println(phoneNumber);
             return;
         }
 
         String hash = "" + piece.getPosx() + piece.getPosy();
         List<int[]> nextPossiblePositions;
-        if(possiblePositions.containsKey(hash)){
-            nextPossiblePositions = possiblePositions.get(hash);
+        if(possiblePositionsMap.containsKey(hash)){
+            nextPossiblePositions = possiblePositionsMap.get(hash);
         } else {
             nextPossiblePositions = piece.getNextPotentialPositions(phonePad);
-            possiblePositions.put(hash, nextPossiblePositions);
+            possiblePositionsMap.put(hash, nextPossiblePositions);
         }
 
         if(nextPossiblePositions.size() == 0){
@@ -56,7 +46,7 @@ public class PhoneNumberGenerator {
             if(Arrays.asList(PhoneNumber.INVALIDCHARACTERS).indexOf(nextNum) != -1){
                 continue;
             }
-            generatePhoneNumbersForPiece(piece, phoneNumber + nextNum, possiblePositions);
+            generatePhoneNumbersForPiece(piece, phoneNumber + nextNum);
         }
     }
 
@@ -79,15 +69,23 @@ public class PhoneNumberGenerator {
     }
 
     public void generatePhoneNumbers() throws NullPointerException {
-        int[] initialCoordinates = getInitialCoordinates();
-        if(initialCoordinates == null){
-            throw new NullPointerException("There is no such key on this phone pad");
-        }
         for(ChessPiece.ChessPieces chessPiece : ChessPiece.ChessPieces.values()){
             phoneNumbers.clear();
-            ChessPiece piece = getChessPiece(chessPiece, initialCoordinates[0], initialCoordinates[1]);
-            HashMap<String, List<int[]>> possiblePositions = new HashMap<>();
-            generatePhoneNumbersForPiece(piece, initialKey, possiblePositions);
+            possiblePositionsMap.clear();
+            ChessPiece piece = getChessPiece(chessPiece, 0, 0);
+            for(int i=0; i<phonePad.length; i++) {
+                for (int j = 0; j < phonePad[i].length; j++) {
+                    String start = phonePad[i][j];
+                    if (Arrays.asList(PhoneNumber.INVALIDCHARACTERS).indexOf(start) != -1 || Arrays.asList(PhoneNumber.INVALIDSTARTINGNUMBER).indexOf(start) != -1) {
+                        continue;
+                    }
+                    assert piece != null;
+                    piece.setPosx(i);
+                    piece.setPosy(j);
+                    generatePhoneNumbersForPiece(piece, start);
+
+                }
+            }
             assert piece != null;
             System.out.println(piece.getName() + " : " + phoneNumbers.size());
         }
@@ -95,7 +93,7 @@ public class PhoneNumberGenerator {
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad, "2");
+        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad);
         generator.generatePhoneNumbers();
     }
 
