@@ -15,7 +15,7 @@ public class Rook extends ChessPiece {
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        Rook rook = new Rook(1,1);
+        Rook rook = new Rook(1,2);
         System.out.println(pad[rook.getPosy()][rook.getPosx()]);
         System.out.println();
         List<int[]> list = rook.getNextPotentialPositions(pad);

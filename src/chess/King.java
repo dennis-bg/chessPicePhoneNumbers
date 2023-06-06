@@ -15,6 +15,7 @@ public class King extends ChessPiece {
         ArrayList<int[]> potentialPositions = new ArrayList<>();
         for(int i=-1; i<=1; i++){
             for(int j=-1; j<=1; j++){
+                if(i == 0 && j == 0) continue;
                 int posX = this.getPosx() + i;
                 int posY = this.getPosy() + j;
                 try{
@@ -31,7 +32,7 @@ public class King extends ChessPiece {
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        King king = new King(1, 0);
+        King king = new King(2, 2);
         System.out.println(pad[king.getPosy()][king.getPosx()]);
         System.out.println();
         List<int[]> list = king.getNextPotentialPositions(pad);

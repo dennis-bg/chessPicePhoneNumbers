@@ -40,8 +40,8 @@ public abstract class ChessPiece {
     protected List<int[]> getDiagonalPositions(String[][] pad){
         ArrayList<int[]> potentialPositions = new ArrayList<>();
 
-        int x = this.getPosx();
-        int y = this.getPosy();
+        int x = this.getPosx() - 1;
+        int y = this.getPosy() - 1;
         try{
             while(pad[y][x] != null){
                 potentialPositions.add(new int[] {x, y});
@@ -90,7 +90,9 @@ public abstract class ChessPiece {
         int y = this.getPosy();
         try{
             while(pad[y][x] != null){
-                potentialPositions.add(new int[] {x, y});
+                if(x != this.getPosx()){
+                    potentialPositions.add(new int[] {x, y});
+                }
                 x++;
             }
         }catch(ArrayIndexOutOfBoundsException ignored){}

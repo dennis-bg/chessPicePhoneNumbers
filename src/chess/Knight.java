@@ -14,7 +14,6 @@ public class Knight extends ChessPiece {
         ArrayList<int[]> potentialPositions = new ArrayList<>();
         int x = this.getPosx();
         int y= this.getPosy();
-        potentialPositions.add(new int[] {x, y});
 
         int[][] allDirections = new int[][]{{x-1, y-2}, {x+1, y-2}, {x-1, y+2}, {x+1, y+2}, {x-2, y+1}, {x-2, y-1}, {x+2, y+1}, {x+2, y-1}};
 
@@ -31,7 +30,7 @@ public class Knight extends ChessPiece {
 
     public static void main(String[] args) {
         String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        Knight knight = new Knight(0,1);
+        Knight knight = new Knight(2,2);
         System.out.println(pad[knight.getPosy()][knight.getPosx()]);
         System.out.println();
         List<int[]> list = knight.getNextPotentialPositions(pad);
