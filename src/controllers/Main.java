@@ -1,6 +1,5 @@
 package controllers;
 
-import telephone.PhoneNumber;
 import telephone.PhoneNumberGenerator;
 
 import java.util.Arrays;
@@ -85,8 +84,5 @@ public class Main {
             System.out.println();
             System.out.println("=======================================================================");
         }
-
-
-
     }
 }

@@ -22,7 +22,6 @@ public class PhoneNumberGenerator {
     private void generatePhoneNumbersForPiece(ChessPiece piece, String phoneNumber){
         if(phoneNumber.length() == PhoneNumber.VALIDLENGTH){
             phoneNumbers.add(phoneNumber);
-//            System.out.println(phoneNumber);
             return;
         }
 
@@ -80,8 +79,8 @@ public class PhoneNumberGenerator {
                         continue;
                     }
                     assert piece != null;
-                    piece.setPosx(i);
-                    piece.setPosy(j);
+                    piece.setPosy(i);
+                    piece.setPosx(j);
                     generatePhoneNumbersForPiece(piece, start);
 
                 }
@@ -89,12 +88,6 @@ public class PhoneNumberGenerator {
             assert piece != null;
             System.out.println(piece.getName() + " : " + phoneNumbers.size());
         }
-    }
-
-    public static void main(String[] args) {
-        String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        PhoneNumberGenerator generator = new PhoneNumberGenerator(pad);
-        generator.generatePhoneNumbers();
     }
 
 }
