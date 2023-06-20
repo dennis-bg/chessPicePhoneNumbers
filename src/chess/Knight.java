@@ -27,15 +27,4 @@ public class Knight extends ChessPiece {
 
         return potentialPositions;
     }
-
-    public static void main(String[] args) {
-        String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        Knight knight = new Knight(2,2);
-        System.out.println(pad[knight.getPosy()][knight.getPosx()]);
-        System.out.println();
-        List<int[]> list = knight.getNextPotentialPositions(pad);
-        for (int[] pair : list) {
-            System.out.println(pad[pair[1]][pair[0]]);
-        }
-    }
 }

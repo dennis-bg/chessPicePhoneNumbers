@@ -29,15 +29,4 @@ public class King extends ChessPiece {
         }
         return potentialPositions;
     }
-
-    public static void main(String[] args) {
-        String[][] pad = new String[][] {{"1", "2", "3"},{"4", "5", "6"},{"7", "8", "9"},{"*", "0", "#"}};
-        King king = new King(2, 2);
-        System.out.println(pad[king.getPosy()][king.getPosx()]);
-        System.out.println();
-        List<int[]> list = king.getNextPotentialPositions(pad);
-        for (int[] pair : list) {
-            System.out.println(pad[pair[1]][pair[0]]);
-        }
-    }
 }
